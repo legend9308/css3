@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+	<style>
+		*{
+			margin: 0;
+			padding: 0;
+		}
+		#stage{
+			width: 1000px;
+			height: 300px;
+			margin: 100px auto;
+			background: #ccc;
+			box-shadow: 0px 0px 2px 4px rgba(0,0,0,0.6);
+			border: 1px solid #000;
+			-webkit-perspective:800px;
+			-webkit-perspective-origin:center -20%;
+		}
+		#container{
+			width: 128px;
+			height: 100px;
+			margin: 80px auto;
+			position: relative;
+			-webkit-transform-style:preserve-3d;
+			-webkit-transition:transform 2s ease;
+		}
+		#container img{
+			width: 128px;
+			height: 100px;
+			position: absolute;
+			/*-webkit-transition:transform 2s ease;*/
+			
+		}
+	</style>
+<body>
+	<div id="stage">
+		<div id="container">
+			
+		</div>
+	</div>
+	<script>
+		var html='';
+		var oContainer=document.getElementById('container');
+		var x = 64/Math.tan(20*2*Math.PI/360)+20;
+
+		// for(var i=0;i<9;i++){
+		// 	html+='<img src="img/'+(i+1)+'.jpg" />'
+		// }
+		// style="-webkit-transform:rotateY('+(-i*40)+'deg) translateZ('+x+'px)"
+		var count=0;
+		for(var i=0;i<9;i++){
+			var oImg = new Image();
+			oImg.onload = function(){  //写在src上面 这样支持ie6 图片资源加载完执行onload事件
+				count++;
+				if(count==9){
+					var aImg=document.getElementsByTagName('img');
+					var time=900;
+					for(var i=0;i<9;i++){
+						time-=100;
+						aImg[i].style.WebkitTransition='transform 2s ease '+time+'ms';
+						aImg[i].style.WebkitTransform='rotateY('+(-i*40)+'deg) translateZ('+x+'px)';
+					}
+				}
+			}
+			oImg.src='img/'+(i+1)+'.jpg';
+			oContainer.appendChild(oImg);
+		}
+		var num=0;
+		oContainer.onclick=function(){
+			num++;
+			this.style.WebkitTransform='rotateY('+num*40+'deg)';
+		}
+
+
+		// oContainer.innerHTML=html;
+		// var aImg=document.getElementsByTagName('img');
+		// for(var i=aImg.length-1;i>=0;i--){
+		// 	aImg[i].style.WebkitTransform = 'rotateY('+(-i*40)+'deg) translateZ('+x+'px)';
+		// }
+	</script>
+</body>
+</html>
